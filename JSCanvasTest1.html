@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: #f1f1f1;
+}
+</style>
+</head>
+<body onload="init()">
+	<canvas id="myCanvas" width="800" height="400"></canvas>
+<script>
+// function startGame() {
+//     myGameArea.start();
+// }
+
+// var myGameArea = {
+//     canvas : document.createElement("canvas"),
+//     start : function() {
+//         this.canvas.width = 800;
+//         this.canvas.height = 500;
+//         this.context = this.canvas.getContext("2d");
+//         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+//     }
+// }
+// var canvas = document.getElementById('myCanvas');
+// var context = canvas.getContext('2d');
+// var mouseClicked = false;
+// var mouseReleased = true;
+// document.addEventListener("click", onMouseClick, false);
+// document.addEventListener("mousemove", onMouseMove, false);
+// function onMouseClick(e) {
+//     mouseClicked = !mouseClicked;
+// }
+// function onMouseMove(e) {
+//     if (mouseClicked) {
+//         context.beginPath();
+//         context.arc(e.clientX, e.clientY, 7.5, 0, Math.PI * 2, false);
+//         context.lineWidth = 5;
+//         context.strokeStyle = "#fff";
+//         context.stroke();
+//     }
+// }
+    // function writeMessage(canvas, message) {
+  	 //  var context = canvas.getContext('2d');
+    //     context.clearRect(0, 0, canvas.width, canvas.height);
+    //     context.font = '18pt Calibri';
+    //     context.fillStyle = 'black';
+    //     context.fillText(message, 10, 25);
+    //   }
+    //   function getMousePos(canvas, evt) {
+    //     var rect = canvas.getBoundingClientRect();
+    //     return {
+    //       x: evt.clientX - rect.left,
+    //       y: evt.clientY - rect.top
+    //     };
+    //   }
+    //   var canvas = document.getElementById('myCanvas');
+    //   var context = canvas.getContext('2d');
+
+    //   canvas.addEventListener('mousemove', function(evt) {
+    //     var mousePos = getMousePos(canvas, evt);
+    //     var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+    //     writeMessage(canvas, message);
+    //   }, false);
+
+var canvas, ctx, flag = false,
+        prevX = 0,
+        currX = 0,
+        prevY = 0,
+        currY = 0,
+        dot_flag = false;
+
+    var x = "black",
+        y = 2;
+    
+    function init() {
+        canvas = document.getElementById('myCanvas');
+        ctx = canvas.getContext("2d");
+        w = canvas.width;
+        h = canvas.height;
+    
+        canvas.addEventListener("mousemove", function (e) {
+            findxy('move', e)
+        }, false);
+        canvas.addEventListener("mousedown", function (e) {
+            findxy('down', e)
+        }, false);
+        canvas.addEventListener("mouseup", function (e) {
+            findxy('up', e)
+        }, false);
+        canvas.addEventListener("mouseout", function (e) {
+            findxy('out', e)
+        }, false);
+    }
+    
+    // function color(obj) {
+    //     switch (obj.id) {
+    //         case "green":
+    //             x = "green";
+    //             break;
+    //         case "blue":
+    //             x = "blue";
+    //             break;
+    //         case "red":
+    //             x = "red";
+    //             break;
+    //         case "yellow":
+    //             x = "yellow";
+    //             break;
+    //         case "orange":
+    //             x = "orange";
+    //             break;
+    //         case "black":
+    //             x = "black";
+    //             break;
+    //         case "white":
+    //             x = "white";
+    //             break;
+    //     }
+    //     if (x == "white") y = 14;
+    //     else y = 2;
+    
+    // }
+    
+    function draw() {
+        ctx.beginPath();
+        ctx.arc(prevX, prevY,40,0,2*Math.PI);
+        // ctx.moveTo(prevX, prevY);
+        // ctx.lineTo(currX, currY);
+        // ctx.strokeStyle = x;
+        // ctx.lineWidth = y;
+        ctx.stroke();
+        ctx.closePath();
+    }
+    
+    // function erase() {
+    //     var m = confirm("Want to clear");
+    //     if (m) {
+    //         ctx.clearRect(0, 0, w, h);
+    //         document.getElementById("canvasimg").style.display = "none";
+    //     }
+    // }
+    
+    function save() {
+        document.getElementById("canvasimg").style.border = "2px solid";
+        var dataURL = canvas.toDataURL();
+        document.getElementById("canvasimg").src = dataURL;
+        document.getElementById("canvasimg").style.display = "inline";
+    }
+    
+    function findxy(res, e) {
+        if (res == 'down') {
+            prevX = currX;
+            prevY = currY;
+            currX = e.clientX - canvas.offsetLeft;
+            currY = e.clientY - canvas.offsetTop;
+    
+            flag = true;
+            dot_flag = true;
+            if (dot_flag) {
+                ctx.beginPath();
+                ctx.fillStyle = x;
+                ctx.fillRect(currX, currY, 2, 2);
+                ctx.closePath();
+                dot_flag = false;
+            }
+        }
+        if (res == 'up' || res == "out") {
+            flag = false;
+        }
+        if (res == 'move') {
+            if (flag) {
+                prevX = currX;
+                prevY = currY;
+                currX = e.clientX - canvas.offsetLeft;
+                currY = e.clientY - canvas.offsetTop;
+                draw();
+            }
+        }
+    }
+    </script>
+  </body>
+</html>
+
+</script>
+</body>
